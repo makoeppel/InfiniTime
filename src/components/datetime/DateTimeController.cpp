@@ -7,6 +7,7 @@ using namespace Pinetime::Controllers;
 
 namespace {
   char const* DaysStringShort[] = {"--", "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
+  char const* DaysStringShortLow[] = {"--", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
   char const* MonthsString[] = {"--", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
   char const* MonthsStringLow[] = {"--", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 }
@@ -35,6 +36,7 @@ void DateTime::SetTime(uint16_t year,
     /* .tm_mon  = */ month - 1,
     /* .tm_year = */ year - 1900,
   };
+
   tm.tm_isdst = -1; // Use DST value from local time zone
   currentDateTime = std::chrono::system_clock::from_time_t(std::mktime(&tm));
 
@@ -47,6 +49,11 @@ void DateTime::SetTime(uint16_t year,
   NRF_LOG_INFO("* %d %d %d ", this->day, this->month, this->year);
 
   systemTask->PushMessage(System::Messages::OnNewTime);
+}
+
+void DateTime::SetTimeZone(int8_t timezone, int8_t dst) {
+  tzOffset = timezone;
+  dstOffset = dst;
 }
 
 void DateTime::UpdateTime(uint32_t systickCounter) {
@@ -124,6 +131,10 @@ const char* DateTime::DayOfWeekShortToString() const {
 
 const char* DateTime::MonthShortToStringLow(Months month) {
   return MonthsStringLow[static_cast<uint8_t>(month)];
+}
+
+const char* DateTime::DayOfWeekShortToStringLow() const {
+  return DaysStringShortLow[static_cast<uint8_t>(dayOfWeek)];
 }
 
 void DateTime::Register(Pinetime::System::SystemTask* systemTask) {

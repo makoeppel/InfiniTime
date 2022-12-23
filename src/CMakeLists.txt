@@ -396,6 +396,7 @@ list(APPEND SOURCE_FILES
         displayapp/screens/Motion.cpp
         displayapp/screens/FlashLight.cpp
         displayapp/screens/List.cpp
+        displayapp/screens/CheckboxList.cpp
         displayapp/screens/BatteryInfo.cpp
         displayapp/screens/Steps.cpp
         displayapp/screens/Timer.cpp
@@ -427,8 +428,10 @@ list(APPEND SOURCE_FILES
         displayapp/icons/bg_clock.c
         displayapp/screens/WatchFaceAnalog.cpp
         displayapp/screens/WatchFaceDigital.cpp
+        displayapp/screens/WatchFaceInfineat.cpp
         displayapp/screens/WatchFaceTerminal.cpp
         displayapp/screens/WatchFacePineTimeStyle.cpp
+        displayapp/screens/WatchFaceCasioStyleG7710.cpp
 
         ##
 
@@ -603,6 +606,7 @@ set(INCLUDE_FILES
         displayapp/screens/FirmwareUpdate.h
         displayapp/screens/FirmwareValidation.h
         displayapp/screens/ApplicationList.h
+        displayapp/screens/CheckboxList.h
         displayapp/Apps.h
         displayapp/screens/Notifications.h
         displayapp/screens/HeartRate.h
@@ -776,7 +780,7 @@ link_directories(
 )
 
 
-set(COMMON_FLAGS -MP -MD -mthumb -mabi=aapcs -Wall -Wextra -Warray-bounds=2 -Wformat=2 -Wformat-overflow=2 -Wformat-truncation=2 -Wformat-nonliteral -ftree-vrp -Wno-unused-parameter -Wno-missing-field-initializers -Wno-unknown-pragmas -Wno-expansion-to-defined -g3 -ffunction-sections -fdata-sections -fno-strict-aliasing -fno-builtin --short-enums -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wreturn-type -Werror=return-type -fstack-usage -fno-exceptions -fno-non-call-exceptions)
+set(COMMON_FLAGS -MP -MD -mthumb -mabi=aapcs -Wall -Wextra -Warray-bounds=2 -Wformat=2 -Wformat-overflow=2 -Wformat-truncation=2 -Wformat-nonliteral -ftree-vrp -Wno-unused-parameter -Wno-missing-field-initializers -Wno-unknown-pragmas -Wno-expansion-to-defined -g3 -ffunction-sections -fdata-sections -fno-strict-aliasing -fno-builtin -fshort-enums -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wreturn-type -Werror=return-type -fstack-usage -fno-exceptions -fno-non-call-exceptions)
 add_definitions(-DCONFIG_GPIO_AS_PINRESET)
 add_definitions(-DNIMBLE_CFG_CONTROLLER)
 add_definitions(-DOS_CPUTIME_FREQ)

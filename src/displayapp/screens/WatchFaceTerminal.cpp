@@ -17,7 +17,7 @@ WatchFaceTerminal::WatchFaceTerminal(DisplayApp* app,
                                      Controllers::DateTime& dateTimeController,
                                      Controllers::Battery& batteryController,
                                      Controllers::Ble& bleController,
-                                     Controllers::NotificationManager& notificatioManager,
+                                     Controllers::NotificationManager& notificationManager,
                                      Controllers::Settings& settingsController,
                                      Controllers::HeartRateController& heartRateController,
                                      Controllers::MotionController& motionController)
@@ -26,12 +26,10 @@ WatchFaceTerminal::WatchFaceTerminal(DisplayApp* app,
     dateTimeController {dateTimeController},
     batteryController {batteryController},
     bleController {bleController},
-    notificatioManager {notificatioManager},
+    notificationManager {notificationManager},
     settingsController {settingsController},
     heartRateController {heartRateController},
     motionController {motionController} {
-  settingsController.SetClockFace(3);
-
   batteryValue = lv_label_create(lv_scr_act(), nullptr);
   lv_label_set_recolor(batteryValue, true);
   lv_obj_align(batteryValue, lv_scr_act(), LV_ALIGN_IN_LEFT_MID, 0, -20);
@@ -100,7 +98,7 @@ void WatchFaceTerminal::Refresh() {
     }
   }
 
-  notificationState = notificatioManager.AreNewNotificationsAvailable();
+  notificationState = notificationManager.AreNewNotificationsAvailable();
   if (notificationState.IsUpdated()) {
     if (notificationState.Get()) {
       lv_label_set_text_static(notificationIcon, "You have mail.");

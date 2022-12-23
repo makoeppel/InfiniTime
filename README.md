@@ -20,6 +20,8 @@ Fast open-source firmware for the [PineTime smartwatch](https://www.pine64.org/p
 - [InfiniLink](https://github.com/InfiniTimeOrg/InfiniLink) (iOS) **[Looking for a new maintainer]**
 - [ITD](https://gitea.arsenm.dev/Arsen6331/itd) (Linux)
 
+***Note** : We removed mentions to NRFConnect as this app is closed source and recent versions do not work anymore with InfiniTime (the last version known to work is 4.24.3). If you used NRFConnect in the past, we recommend you switch to [Gadgetbridge](https://gadgetbridge.org/).*
+
 ## Development
 
 - [InfiniTime Vision](doc/InfiniTimeVision.md)
@@ -28,6 +30,7 @@ Fast open-source firmware for the [PineTime smartwatch](https://www.pine64.org/p
 - [Generate the fonts and symbols](src/displayapp/fonts/README.md)
 - [Tips on designing an app UI](doc/ui_guidelines.md)
 - [Bootloader, OTA and DFU](bootloader/README.md)
+- [External resources](doc/ExternalResources.md)
 - [Versioning](doc/versioning.md)
 - [Project branches](doc/branches.md)
 - [Files included in the release notes](doc/filesInReleaseNotes.md)
