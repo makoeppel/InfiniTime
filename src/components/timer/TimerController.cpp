@@ -8,8 +8,9 @@ void TimerCallback(TimerHandle_t xTimer) {
   controller->OnTimerEnd();
 }
 
-void TimerController::Init(Pinetime::System::SystemTask* systemTask) {
+void TimerController::Init(Pinetime::System::SystemTask* systemTask, Pinetime::System::Messages systemMessage) {
   this->systemTask = systemTask;
+  this->systemMessage = systemMessage;
   timer = xTimerCreate("Timer", 1, pdFALSE, this, TimerCallback);
 }
 
@@ -35,5 +36,5 @@ bool TimerController::IsRunning() {
 }
 
 void TimerController::OnTimerEnd() {
-  systemTask->PushMessage(System::Messages::OnTimerDone);
+  systemTask->PushMessage(this->systemMessage);
 }

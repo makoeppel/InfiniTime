@@ -2,6 +2,7 @@
 
 #include <FreeRTOS.h>
 #include <timers.h>
+#include "systemtask/Messages.h"
 
 namespace Pinetime {
   namespace System {
@@ -13,7 +14,7 @@ namespace Pinetime {
     public:
       TimerController() = default;
 
-      void Init(System::SystemTask* systemTask);
+      void Init(System::SystemTask* systemTask, System::Messages systemMessage);
 
       void StartTimer(uint32_t duration);
 
@@ -26,6 +27,7 @@ namespace Pinetime {
       void OnTimerEnd();
 
     private:
+      System::Messages systemMessage;
       System::SystemTask* systemTask = nullptr;
       TimerHandle_t timer;
     };

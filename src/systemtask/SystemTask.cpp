@@ -56,6 +56,7 @@ SystemTask::SystemTask(Drivers::SpiMaster& spi,
                        Controllers::Ble& bleController,
                        Controllers::DateTime& dateTimeController,
                        Controllers::TimerController& timerController,
+                       Controllers::TimerController& throwController,
                        Controllers::AlarmController& alarmController,
                        Drivers::Watchdog& watchdog,
                        Pinetime::Controllers::NotificationManager& notificationManager,
@@ -80,6 +81,7 @@ SystemTask::SystemTask(Drivers::SpiMaster& spi,
     bleController {bleController},
     dateTimeController {dateTimeController},
     timerController {timerController},
+    throwController {throwController},
     alarmController {alarmController},
     watchdog {watchdog},
     notificationManager {notificationManager},
@@ -149,7 +151,8 @@ void SystemTask::Work() {
   batteryController.Register(this);
   motorController.Init();
   motionSensor.SoftReset();
-  timerController.Init(this);
+  timerController.Init(this, System::Messages::OnTimerDone);
+  throwController.Init(this, System::Messages::OnThrowOver);
   alarmController.Init(this);
 
   // Reset the TWI device because the motion sensor chip most probably crashed it...
@@ -295,6 +298,13 @@ void SystemTask::Work() {
           }
           motorController.RunForDuration(35);
           displayApp.PushMessage(Pinetime::Applications::Display::Messages::TimerDone);
+          break;
+        case Messages::OnThrowOver:
+          if (state == SystemTaskState::Sleeping) {
+            GoToRunning();
+          }
+          motorController.RunForDuration(35);
+          displayApp.PushMessage(Pinetime::Applications::Display::Messages::ThrowOver);
           break;
         case Messages::SetOffAlarm:
           if (state == SystemTaskState::Sleeping) {

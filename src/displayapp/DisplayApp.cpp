@@ -74,6 +74,7 @@ DisplayApp::DisplayApp(Drivers::St7789& lcd,
                        Pinetime::Controllers::MotorController& motorController,
                        Pinetime::Controllers::MotionController& motionController,
                        Pinetime::Controllers::TimerController& timerController,
+                       Pinetime::Controllers::TimerController& throwController,
                        Pinetime::Controllers::AlarmController& alarmController,
                        Pinetime::Controllers::BrightnessController& brightnessController,
                        Pinetime::Controllers::TouchHandler& touchHandler,
@@ -91,6 +92,7 @@ DisplayApp::DisplayApp(Drivers::St7789& lcd,
     motorController {motorController},
     motionController {motionController},
     timerController {timerController},
+    throwController {throwController},
     alarmController {alarmController},
     brightnessController {brightnessController},
     touchHandler {touchHandler},
@@ -189,6 +191,14 @@ void DisplayApp::Refresh() {
           timer->Reset();
         } else {
           LoadApp(Apps::Timer, DisplayApp::FullRefreshDirections::Down);
+        }
+        break;
+      case Messages::ThrowOver:
+        if (currentApp == Apps::Boule) {
+          auto* boule = static_cast<Screens::Boule*>(currentScreen.get());
+          boule->ThrowCounterStopped();
+        } else {
+          LoadApp(Apps::Boule, DisplayApp::FullRefreshDirections::Down);
         }
         break;
       case Messages::AlarmTriggered:
@@ -369,7 +379,9 @@ void DisplayApp::LoadApp(Apps app, DisplayApp::FullRefreshDirections direction) 
       ReturnApp(Apps::Clock, FullRefreshDirections::Up, TouchEvents::SwipeUp);
       break;
     case Apps::Boule:
-      currentScreen = std::make_unique<Screens::Boule>(this, timerController);
+      currentScreen = std::make_unique<Screens::Boule>(this,
+                                                       throwController,
+                                                       dateTimeController);
       break;
     case Apps::Timer:
       currentScreen = std::make_unique<Screens::Timer>(this, timerController);
